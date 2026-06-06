@@ -1,25 +1,54 @@
 {
   "expo": {
-    "name": "PatoNajemMobile",
-    "slug": "PatoNajemMobile",
+    "name": "PatoNajem",
+    "slug": "patonajem",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
+    "userInterfaceStyle": "dark",
+    "splash": {
+      "backgroundColor": "#0D1117"
+    },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": false,
+      "bundleIdentifier": "pl.patonajem.app"
     },
     "android": {
       "adaptiveIcon": {
-        "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/android-icon-foreground.png",
-        "backgroundImage": "./assets/android-icon-background.png",
-        "monochromeImage": "./assets/android-icon-monochrome.png"
+        "backgroundColor": "#0D1117"
       },
-      "predictiveBackGestureEnabled": false
+      "package": "pl.patonajem.app",
+      "permissions": [
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION",
+        "CAMERA",
+        "READ_MEDIA_IMAGES",
+        "VIBRATE"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-secure-store",
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "PatoNajem potrzebuje lokalizacji do analizy okolicy."
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "PatoNajem potrzebuje dostępu do zdjęć do dodawania ofert."
+        }
+      ]
+    ],
+    "scheme": "patonajem",
+    "experiments": {
+      "typedRoutes": true
     }
   }
 }
