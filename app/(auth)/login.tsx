@@ -37,13 +37,11 @@ export default function LoginScreen() {
     <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
       <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled">
 
-        {/* Logo */}
         <View style={styles.logoWrap}>
           <Text style={styles.logo}>Pato<Text style={styles.logoGreen}>Najem</Text></Text>
           <Text style={styles.tagline}>Wynajmij mądrzej</Text>
         </View>
 
-        {/* Formularz */}
         <View style={styles.form}>
           <Text style={styles.heading}>Zaloguj się</Text>
 

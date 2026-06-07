@@ -85,7 +85,6 @@ export default function NowaOfertaScreen() {
     if (!validate()) return;
     setLoading(true);
     try {
-      // 1. Utwórz ofertę
       const offer = await offersService.createOffer({
         title: form.title.trim(),
         location: form.location.trim(),
@@ -96,13 +95,11 @@ export default function NowaOfertaScreen() {
         difficulty: form.difficulty,
       });
 
-      // 2. Wgraj zdjęcia jeśli wybrano
       if (images.length > 0) {
         for (const img of images) {
           try {
             await offersService.uploadOfferImage(offer.id, img.uri);
           } catch {
-            // Kontynuuj nawet jeśli jedno zdjęcie się nie wgra
           }
         }
       }
@@ -125,7 +122,6 @@ export default function NowaOfertaScreen() {
         style={styles.flex}
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
       >
-        {/* Top bar */}
         <View style={styles.topBar}>
           <TouchableOpacity onPress={() => router.back()} style={styles.backBtn}>
             <Ionicons name="arrow-back" size={24} color={Colors.text} />
@@ -154,7 +150,6 @@ export default function NowaOfertaScreen() {
           <Input label="Opis" placeholder="Opisz mieszkanie, stan, wyposażenie..." value={form.description} onChangeText={v => set('description', v)} error={errors.description} />
           <Input label="Telefon wynajmującego (opcjonalnie)" placeholder="+48 123 456 789" value={form.landlordPhone} onChangeText={v => set('landlordPhone', v)} keyboardType="phone-pad" />
 
-          {/* Zdjęcia */}
           <Text style={styles.label}>Zdjęcia ({images.length}/{MAX_IMAGES})</Text>
           <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.imageRow}>
             {images.map((img, i) => (
@@ -173,7 +168,6 @@ export default function NowaOfertaScreen() {
             )}
           </ScrollView>
 
-          {/* Poziom patologii */}
           <Text style={styles.label}>Poziom patologii</Text>
           <View style={styles.diffRow}>
             {DIFFICULTIES.map(d => (

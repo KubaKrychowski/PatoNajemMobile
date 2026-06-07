@@ -9,7 +9,6 @@ interface OfferCardProps {
   offer: Offer;
 }
 
-// Memo zapobiega re-renderowaniu gdy inne oferty się zmienią
 export const OfferCard = memo(function OfferCard({ offer }: OfferCardProps) {
   const imageUrl = offer.imageUrls?.[0];
   const isAvailable = offer.status === 'available';
@@ -20,7 +19,6 @@ export const OfferCard = memo(function OfferCard({ offer }: OfferCardProps) {
       onPress={() => router.push(`/oferty/${offer.id}`)}
       activeOpacity={0.85}
     >
-      {/* Zdjęcie */}
       {imageUrl ? (
         <Image source={{ uri: imageUrl }} style={styles.image} resizeMode="cover" />
       ) : (
@@ -29,12 +27,10 @@ export const OfferCard = memo(function OfferCard({ offer }: OfferCardProps) {
         </View>
       )}
 
-      {/* Status badge */}
       <View style={[styles.statusBadge, isAvailable ? styles.statusAvailable : styles.statusRented]}>
         <Text style={styles.statusText}>{isAvailable ? 'Dostępne' : 'Wynajęte'}</Text>
       </View>
 
-      {/* Treść */}
       <View style={styles.body}>
         <View style={styles.priceRow}>
           <Text style={styles.price}>{offer.price.toLocaleString('pl-PL')} zł/mc</Text>
@@ -48,7 +44,6 @@ export const OfferCard = memo(function OfferCard({ offer }: OfferCardProps) {
           </View>
         )}
 
-        {/* Głosy i komentarze */}
         <View style={styles.footer}>
           <Ionicons name="thumbs-down" size={13} color={Colors.error} />
           <Text style={[styles.votes, { color: Colors.error }]}>{offer.downvotes ?? 0}</Text>

@@ -6,7 +6,6 @@ import { initAuth } from '../store/authSlice';
 import { RootState, AppDispatch } from '../store';
 import { Colors } from '../constants/theme';
 
-// Punkt wejścia — sprawdza sesję i przekierowuje
 export default function Index() {
   const dispatch = useDispatch<AppDispatch>();
   const { user, isInitialized } = useSelector((s: RootState) => s.auth);

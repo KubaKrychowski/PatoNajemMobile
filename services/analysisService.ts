@@ -6,13 +6,11 @@ import {
 } from '../constants/config';
 import { AirQuality, NegativeElement, LocationScore, AddressAnalysis } from '../types';
 
-// Nominatim wymaga identyfikującego User-Agent (403 bez niego)
 const NOMINATIM_HEADERS = {
   'Accept-Language': 'pl',
   'User-Agent': 'PatoNajem/1.0 (kubolot33123@gmail.com)',
 };
 
-// Geocodowanie adresu do współrzędnych przez Nominatim
 export async function geocodeAddress(address: string): Promise<{ lat: number; lng: number; display: string } | null> {
   const res = await axios.get(`${NOMINATIM_URL}/search`, {
     params: { q: address, format: 'json', limit: 1, countrycodes: 'pl' },
@@ -23,7 +21,6 @@ export async function geocodeAddress(address: string): Promise<{ lat: number; ln
   return { lat: parseFloat(r.lat), lng: parseFloat(r.lon), display: r.display_name };
 }
 
-// Pobierz dane o jakości powietrza z Open-Meteo
 export async function fetchAirQuality(lat: number, lng: number): Promise<AirQuality | null> {
   try {
     const res = await axios.get(`${AIR_QUALITY_URL}/air-quality`, {
@@ -49,9 +46,8 @@ export async function fetchAirQuality(lat: number, lng: number): Promise<AirQual
   }
 }
 
-// Pobierz elementy negatywne w okolicy przez Overpass API
 export async function fetchNegativeElements(lat: number, lng: number): Promise<NegativeElement[]> {
-  const radius = 1000; // 1km
+  const radius = 1000;
   const query = `
     [out:json][timeout:15];
     (
@@ -85,17 +81,13 @@ export async function fetchNegativeElements(lat: number, lng: number): Promise<N
   }
 }
 
-// Oblicz scoring lokalizacji (0-100) na podstawie zebranych danych
 export function calculateScore(airQuality: AirQuality | null, negativeElements: NegativeElement[]): LocationScore {
-  // Wynik jakości powietrza (pm2.5 < 10 → 100, > 75 → 0)
   const pm25 = airQuality?.pm2_5 ?? 25;
   const airScore = Math.max(0, Math.min(100, Math.round(100 - (pm25 / 75) * 100)));
 
-  // Kara za elementy negatywne (każdy odejmuje punkty)
   const nuisancePenalty = Math.min(100, negativeElements.length * 20);
   const nuisanceScore = 100 - nuisancePenalty;
 
-  // Domyślne wartości dla POI i transportu (bez dodatkowych API)
   const poiScore = 65;
   const transportScore = 70;
 
@@ -104,13 +96,11 @@ export function calculateScore(airQuality: AirQuality | null, negativeElements: 
   return { total, airQuality: airScore, poi: poiScore, nuisance: nuisanceScore, transport: transportScore };
 }
 
-// Pełna analiza adresu
 export async function analyzeAddress(address: string): Promise<AddressAnalysis> {
   let geo: { lat: number; lng: number; display: string } | null = null;
   try {
     geo = await geocodeAddress(address);
   } catch (err: any) {
-    // Nominatim może zwrócić 403 przy braku User-Agent lub rate-limitingu
     const status = err?.response?.status;
     if (status === 403) {
       throw new Error('Geocoder tymczasowo niedostępny (403). Spróbuj ponownie za chwilę.');

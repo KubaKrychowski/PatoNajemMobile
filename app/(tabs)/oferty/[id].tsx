@@ -36,7 +36,6 @@ export default function OfferDetailScreen() {
   const voteMutation = useMutation({
     mutationFn: (type: 'up' | 'down') => offersService.vote(id, type),
     onSuccess: () => {
-      // Odśwież zarówno szczegół oferty jak i listę
       queryClient.invalidateQueries({ queryKey: ['offer', id] });
       queryClient.invalidateQueries({ queryKey: ['offers'] });
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
@@ -107,7 +106,6 @@ export default function OfferDetailScreen() {
           )}
 
           <View style={styles.voteRow}>
-            {/* Tylko łapka w dół — pato-system */}
             <TouchableOpacity
               style={styles.voteBtn}
               onPress={() => voteMutation.mutate('down')}

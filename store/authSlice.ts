@@ -18,7 +18,6 @@ const initialState: AuthState = {
   isInitialized: false,
 };
 
-// Inicjalizacja sesji — odczyt z SecureStore przy starcie aplikacji
 export const initAuth = createAsyncThunk('auth/init', async () => {
   const token = await authService.getToken();
   if (!token) return { user: null, token: null };

@@ -18,9 +18,8 @@ Aplikacja mobilna platformy PatoNajem — weryfikacja nieruchomości przed wynaj
 ## Wymagania wstępne
 
 - Node.js 18+
-- Backend **PatoNajemApi** uruchomiony (`npm run start:dev`)
-- NGINX proxy uruchomione (`docker compose up`) — API dostępne pod `https://localhost`
-- Zaakceptowany certyfikat self-signed w przeglądarce (`https://localhost` → Zaawansowane → Przejdź)
+
+API jest zahostowane na **Azure App Service** — nie wymaga lokalnego backendu ani NGINX.
 
 ## Uruchomienie
 
@@ -29,15 +28,10 @@ Aplikacja mobilna platformy PatoNajem — weryfikacja nieruchomości przed wynaj
 cd PatoNajemMobile
 npm install
 
-# 2. Ustaw adres API (opcjonalnie)
-# Domyślnie: https://localhost (przez NGINX)
-# Dla fizycznego urządzenia — zmień na IP maszyny:
-echo "EXPO_PUBLIC_API_URL=https://192.168.1.XXX" > .env
-
-# 3a. Uruchom na urządzeniu/emulatorze (Expo Go)
+# 2. Uruchom na urządzeniu/emulatorze (Expo Go)
 npm start
 
-# 3b. Uruchom w przeglądarce (web)
+# 3. Uruchom w przeglądarce (web)
 npx expo start --web --clear
 ```
 
@@ -47,11 +41,11 @@ npx expo start --web --clear
 npx eas build --platform android --profile preview
 ```
 
-## Konfiguracja backendu (wymagana)
+## Backend
 
-Aplikacja mobilna używa dedykowanego endpointu `POST /api/mobile-token` (zamiast PKCE flow). Endpoint zwraca token JWT bezpośrednio — bez ciasteczek.
+Aplikacja komunikuje się z API zahostowanym na Azure App Service (`polandcentral`). Domyślny adres jest wbudowany w zmienną środowiskową `EXPO_PUBLIC_API_URL` — nie wymaga żadnej konfiguracji.
 
-CORS backendu (`PatoNajemApi/src/main.ts`) musi zezwalać na origin `http://localhost:8081` (web dev).
+Aplikacja używa dedykowanego endpointu `POST /api/mobile-token` (zamiast PKCE flow). Endpoint zwraca token JWT bezpośrednio — bez ciasteczek.
 
 ## Testy
 

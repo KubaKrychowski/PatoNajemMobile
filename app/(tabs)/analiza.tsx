@@ -46,7 +46,6 @@ export default function AnalizaScreen() {
     }
   };
 
-  // Geolokalizacja — pobierz bieżący adres z GPS
   const handleLocate = async () => {
     setLocating(true);
     try {
@@ -72,7 +71,8 @@ export default function AnalizaScreen() {
         const { street, city, streetNumber } = geo[0];
         setAddress([street, streetNumber, city].filter(Boolean).join(' '));
       }
-    } catch {
+    } catch (ex) {
+      console.log(ex);
       Alert.alert('Błąd', 'Nie udało się pobrać lokalizacji');
     } finally {
       setLocating(false);
@@ -83,14 +83,12 @@ export default function AnalizaScreen() {
     <SafeAreaView style={styles.container} edges={['top']}>
       <ScrollView contentContainerStyle={styles.scroll} keyboardShouldPersistTaps="handled">
 
-        {/* Header */}
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 4 }}>
           <Ionicons name="search" size={24} color={Colors.green} />
           <Text style={styles.heading}>Analiza adresu</Text>
         </View>
         <Text style={styles.sub}>Sprawdź okolicę zanim podpiszesz umowę</Text>
 
-        {/* Input */}
         <View style={styles.inputCard}>
           <View style={styles.inputRow}>
             <TextInput
@@ -112,7 +110,6 @@ export default function AnalizaScreen() {
           <Button title="Analizuj" onPress={handleAnalyze} loading={loading} />
         </View>
 
-        {/* Wyniki */}
         {loading && (
           <View style={styles.loadingWrap}>
             <ActivityIndicator color={Colors.green} size="large" />
@@ -122,7 +119,6 @@ export default function AnalizaScreen() {
 
         {result && !loading && (
           <>
-            {/* Adres */}
             <View style={styles.addressBanner}>
               <View style={styles.addressLabelRow}>
                 <Ionicons name="location-outline" size={13} color={Colors.muted} />
@@ -131,13 +127,10 @@ export default function AnalizaScreen() {
               <Text style={styles.addressText} numberOfLines={2}>{result.address}</Text>
             </View>
 
-            {/* Scoring */}
             {result.score && <ScoreCard score={result.score} />}
 
-            {/* Jakość powietrza */}
             {result.airQuality && <AirQualityCard data={result.airQuality} />}
 
-            {/* Elementy negatywne */}
             <View style={styles.card}>
               <View style={styles.cardTitleRow}>
                 <Ionicons name="warning-outline" size={18} color={Colors.orange} />
@@ -161,7 +154,6 @@ export default function AnalizaScreen() {
               )}
             </View>
 
-            {/* Koordynaty */}
             <Text style={styles.coords}>
               {result.lat.toFixed(5)}, {result.lng.toFixed(5)}
             </Text>

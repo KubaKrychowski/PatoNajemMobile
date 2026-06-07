@@ -38,7 +38,6 @@ export default function ProfilScreen() {
     <SafeAreaView style={styles.container} edges={['top']}>
       <ScrollView contentContainerStyle={styles.scroll}>
 
-        {/* Avatar i dane */}
         <View style={styles.profileCard}>
           <View style={styles.avatar}>
             <Text style={styles.avatarText}>{user.name?.[0]?.toUpperCase() ?? '?'}</Text>
@@ -53,7 +52,6 @@ export default function ProfilScreen() {
           )}
         </View>
 
-        {/* Info */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Konto</Text>
           <View style={styles.infoRow}>
@@ -77,7 +75,6 @@ export default function ProfilScreen() {
           </View>
         </View>
 
-        {/* Wylogowanie */}
         <Button title="Wyloguj się" onPress={handleLogout} variant="danger" style={{ marginTop: Spacing.lg }} />
 
       </ScrollView>
