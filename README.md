@@ -28,18 +28,16 @@ API jest zahostowane na **Azure App Service** — nie wymaga lokalnego backendu 
 cd PatoNajemMobile
 npm install
 
-# 2. Uruchom na urządzeniu/emulatorze (Expo Go)
+# 2. Uruchom na urządzeniu (Expo Go — zeskanuj QR kod)
 npm start
 
-# 3. Uruchom w przeglądarce (web)
+# 3. Uruchom na emulatorze Android
+npm run android
+
+# 4. Uruchom w przeglądarce (web)
 npx expo start --web --clear
 ```
 
-### EAS Build (Android APK)
-
-```bash
-npx eas build --platform android --profile preview
-```
 
 ## Backend
 
